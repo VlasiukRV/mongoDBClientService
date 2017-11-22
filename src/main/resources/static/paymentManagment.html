@@ -1,0 +1,54 @@
+
+<div ng-controller="paymentServiceController">
+	<h2>Payment service</h2>
+	<p class="center">
+		
+		<button 
+			ng-click="generateTestPayments()" 
+			type="button" 
+			size="sm"
+			title="generate test payments">
+		generate test payments
+		</button>
+		<button 
+			ng-click="getTestPayments()" 
+			type="button" 
+			size="sm"
+			title="get test payments">
+		get test payments
+		</button>		
+		<button 
+			ng-click="updateTestPayment()" 
+			type="button" 
+			size="sm"
+			title="update test payment">
+		update test payment
+		</button>
+		
+	</p>
+	
+	<p>
+		<div ng-repeat="(key, value) in response">
+			<p>
+				{{key}}: <br /> {{value}}
+			</p>
+		</div>
+	</p>
+	
+	<table class="table table-striped table-bordered table-condensed">
+		<thead>
+			<h3>{{entityName}}</h3>
+			<tr class="active">
+				<td ng-repeat="(key, value) in entityList[0]">
+					<h4>{{key}}</h4>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="entity in entityList">
+				<td ng-repeat="(key, value) in entity">{{value}}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>

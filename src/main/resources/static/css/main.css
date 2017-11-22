@@ -1,0 +1,15 @@
+
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.top-task{
+    height:200px;
+    clear: both;
+}
+
+.top-workplace{
+    height:400px;
+    clear: both;
+}

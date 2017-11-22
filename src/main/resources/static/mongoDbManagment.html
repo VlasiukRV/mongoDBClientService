@@ -1,0 +1,66 @@
+
+<div ng-controller="mongoDbServiceController">
+	<h2>MongoDb service</h2>
+	<p class="center">
+	
+		<button 
+			ng-click="startMongoDBServer()" 
+			type="button" 
+			size="sm"
+			title="start mongoDb server">
+		start mongoDb server
+		</button>
+		<button 
+			ng-click="stopMongoDBServer()" 
+			type="button" 
+			size="sm"
+			title="stop mongoDb server">
+		stop mongoDb server
+		</button>
+	
+		<button 
+			ng-click="testMongoDbConnection()" 
+			type="button" 
+			size="sm"
+			title="test mongoDb connection">
+		test connection
+		</button>
+
+		<button 
+			ng-click="getServerLog()" 
+			type="button" 
+			size="sm"
+			title="get server log">
+		get server log
+		</button>
+
+		<button 
+			ng-click="getDataBasesList()" 
+			type="button" 
+			size="sm"
+			title="get databases list">
+		get databases list
+		</button>
+						
+	</p>
+	<p>
+		<div class="col-sm-2 text-right">
+			<input type="text" ng-model="dataBaseName" />
+		</div>
+	 	<div class="col-sm-2 text-right">
+			<button ng-click="createDataBase(dataBaseName)" type="button" size="sm"
+				title="create dataBase">create dataBase</button>
+			<br />
+			<button ng-click="dropDataBase(dataBaseName)" type="button" size="sm"
+				title="drop dataBase">drop dataBase</button>
+		</div>
+	 
+	</p>
+	<p>
+		<div ng-repeat="(key, value) in response">
+			<p>
+				{{key}}: <br /> {{value}}
+			</p>
+		</div>
+	</p>
+</div>
