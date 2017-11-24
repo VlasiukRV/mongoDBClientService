@@ -9,5 +9,13 @@ public enum SQLLiterals {
     ASC,
     DESC,
     SKIP,
-    LIMIT
+    LIMIT,
+    
+    AND,
+    OR,
+    
+    GT,
+    GTE,    
+    LT,
+    LTE
 }

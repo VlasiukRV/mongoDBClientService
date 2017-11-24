@@ -10,7 +10,7 @@ import lombok.Setter;
 public abstract class SQLSection {
     protected @Getter @Setter SQLLiterals sqlLiteral;
     protected @Getter String sectionRegex = "";
-    protected @Getter String sectionParamRegex = "";
+    /*protected @Getter String sectionParamRegex = "";*/
     
     protected @Getter @Setter String sectionValue = "";
     
