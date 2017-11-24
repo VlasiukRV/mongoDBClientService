@@ -7,7 +7,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
 
 import lombok.Getter;
 
-public class SQLSectionSkip extends AbstractSQLSection {
+public class SQLSectionSkip extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)SKIP(.+)(?=)LIMIT.*";
     private @Getter String sectionParamRegex = "";
     

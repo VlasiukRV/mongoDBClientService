@@ -10,7 +10,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
 import lombok.Getter;
 import lombok.Setter;
 
-public class SQLSectionSelect extends AbstractSQLSection{
+public class SQLSectionSelect extends SQLSection{
     private @Getter String sectionRegex = "\\s*(?<=)SELECT(.+)(?=)FROM.*";
     private @Getter String sectionParamRegex = "(\\s*[//*\\.\\w]*\\s*,*)";
     

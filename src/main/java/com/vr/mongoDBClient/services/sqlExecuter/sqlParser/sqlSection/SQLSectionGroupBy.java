@@ -7,7 +7,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
 
 import lombok.Getter;
 
-public class SQLSectionGroupBy extends AbstractSQLSection {
+public class SQLSectionGroupBy extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)GROUP BY(.+)(?=)ORDER BY.*";
     private @Getter String sectionParamRegex = "";
 

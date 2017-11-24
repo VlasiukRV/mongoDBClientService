@@ -7,18 +7,18 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.vr.mongoDBClient.services.serviceTask.AbstractServiceTask;
+import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
-public class RuntimeProcessRuner extends AbstractServiceTask {
+public class RuntimeProcessRuner extends ServiceTask {
     private String command;
     private Process process;
-    private Set<RuntimeProcessListiner> processListiners = new HashSet<RuntimeProcessListiner>();
+    private Set<IRuntimeProcessListiner> processListiners = new HashSet<IRuntimeProcessListiner>();
     
     public void setCommand(String command) {
         this.command = command;
     }
 
-    public void addProcessListiner(RuntimeProcessListiner processListiner) {
+    public void addProcessListiner(IRuntimeProcessListiner processListiner) {
 	processListiners.add(processListiner);
     }
     
@@ -63,7 +63,7 @@ public class RuntimeProcessRuner extends AbstractServiceTask {
     }    
  
     private void runProcessListiners(InputStream processInputStream) {
-	for (RuntimeProcessListiner runtimeProcessListiner : processListiners) {
+	for (IRuntimeProcessListiner runtimeProcessListiner : processListiners) {
 	    BufferedReader input = new BufferedReader(new InputStreamReader(processInputStream));
 	    runtimeProcessListiner.setInput(input);
 	    runtimeProcessListiner.startTask();
@@ -71,7 +71,7 @@ public class RuntimeProcessRuner extends AbstractServiceTask {
     }
     
     private void stopProcessListiners() throws IOException, InterruptedException {
-	for (RuntimeProcessListiner runtimeProcessListiner : processListiners) {
+	for (IRuntimeProcessListiner runtimeProcessListiner : processListiners) {
 	    runtimeProcessListiner.stopTask();
 	    Thread.sleep(1000);
 	    BufferedReader input = runtimeProcessListiner.getInput();

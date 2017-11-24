@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-public abstract class AbstractSQLSection {
+public abstract class SQLSection {
     protected @Getter @Setter SQLLiterals sqlLiteral;
     protected @Getter String sectionRegex = "";
     protected @Getter String sectionParamRegex = "";

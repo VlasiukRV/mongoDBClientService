@@ -14,7 +14,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessByteArrayListiner;
-import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessListiner;
+import com.vr.mongoDBClient.services.runtimeProcessRuner.IRuntimeProcessListiner;
 import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessRuner;
 
 @Component
@@ -47,15 +47,15 @@ public class MongoDBService {
     }
     
     public void startMongoDBServer() throws Exception {
-	Set<RuntimeProcessListiner> processListiners = new HashSet<RuntimeProcessListiner>();
+	Set<IRuntimeProcessListiner> processListiners = new HashSet<IRuntimeProcessListiner>();
 	startMongoDBServer(this.mongodPath, this.dbPath, processListiners);
     }
 
-    public void startMongoDBServer(Set<RuntimeProcessListiner> processListiners) throws Exception {
+    public void startMongoDBServer(Set<IRuntimeProcessListiner> processListiners) throws Exception {
 	startMongoDBServer(this.mongodPath, this.dbPath, processListiners);
     }
 
-    public void startMongoDBServer(String mongodPath, String dbpath, Set<RuntimeProcessListiner> processListiners) throws Exception {
+    public void startMongoDBServer(String mongodPath, String dbpath, Set<IRuntimeProcessListiner> processListiners) throws Exception {
 	
 	runtimeProcessByteArrayListiner = new RuntimeProcessByteArrayListiner();
 	processListiners.add(runtimeProcessByteArrayListiner);
@@ -67,7 +67,7 @@ public class MongoDBService {
 	
 	runtimeProcessRuner = new RuntimeProcessRuner();
 	runtimeProcessRuner.setCommand(command);
-	for (RuntimeProcessListiner runtimeProcessListiner : processListiners) {
+	for (IRuntimeProcessListiner runtimeProcessListiner : processListiners) {
 	    runtimeProcessRuner.addProcessListiner(runtimeProcessListiner);
 	}
 	runtimeProcessRuner.startTask();

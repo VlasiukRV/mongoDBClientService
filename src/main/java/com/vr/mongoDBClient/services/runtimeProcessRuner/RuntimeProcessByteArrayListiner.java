@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import com.vr.mongoDBClient.services.serviceTask.AbstractServiceTask;
+import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
-public class RuntimeProcessByteArrayListiner extends AbstractServiceTask implements RuntimeProcessListiner {
+public class RuntimeProcessByteArrayListiner extends ServiceTask implements IRuntimeProcessListiner {
     private BufferedReader input;
     
     private ByteArrayOutputStream output;

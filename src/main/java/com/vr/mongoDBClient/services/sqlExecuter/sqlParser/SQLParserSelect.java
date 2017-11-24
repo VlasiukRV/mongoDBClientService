@@ -11,7 +11,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSection
 import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionWhere;
 
 @Component
-public class SQLParserSelect extends AbstractSQLParser {
+public class SQLParserSelect extends SQLParser {
         
     public SQLParserSelect(){
 	super();

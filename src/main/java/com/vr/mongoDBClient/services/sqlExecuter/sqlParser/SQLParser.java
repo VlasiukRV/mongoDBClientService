@@ -5,16 +5,16 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.AbstractSQLSection;
+import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSection;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class AbstractSQLParser implements IsqlParser{
+public abstract class SQLParser implements ISQLParser{
     protected @Getter @Setter String query = "";
-    protected @Getter @Setter Map<SQLLiterals, AbstractSQLSection>queryTreeSections = new TreeMap<>();
+    protected @Getter @Setter Map<SQLLiterals, SQLSection>queryTreeSections = new TreeMap<>();
 
-    public AbstractSQLParser() {
+    public SQLParser() {
 	buildSQLQuerySpecification();
     }
     
@@ -52,10 +52,10 @@ public abstract class AbstractSQLParser implements IsqlParser{
 	});	
     }        
 
-    protected void signQuerySection(Class<? extends AbstractSQLSection> className) {	
+    protected void signQuerySection(Class<? extends SQLSection> className) {	
 	try {
-	    AbstractSQLSection section;
-	    section = (AbstractSQLSection)className.newInstance();
+	    SQLSection section;
+	    section = (SQLSection)className.newInstance();
 	    queryTreeSections.put(section.getSqlLiteral(), section);
 	} catch (InstantiationException e) {
 	    e.printStackTrace();

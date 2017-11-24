@@ -2,9 +2,9 @@ package com.vr.mongoDBClient.services.runtimeProcessRuner;
 
 import java.io.BufferedReader;
 
-import com.vr.mongoDBClient.services.serviceTask.AbstractServiceTask;
+import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
-public class RuntimeProcessConsoleListiner extends AbstractServiceTask implements RuntimeProcessListiner {
+public class RuntimeProcessConsoleListiner extends ServiceTask implements IRuntimeProcessListiner {
     private BufferedReader input;
     
     @Override

@@ -7,7 +7,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
 
 import lombok.Getter;
 
-public class SQLSectionWhere extends AbstractSQLSection {
+public class SQLSectionWhere extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)WHERE(.+)(?=)GROUP BY.*";
     private @Getter String sectionParamRegex = "";
 

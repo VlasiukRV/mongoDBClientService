@@ -1,12 +1,14 @@
 package com.vr.mongoDBClient.services.serviceTask;
 
-public abstract class AbstractServiceTask extends Thread implements IServiceTask{
+public abstract class ServiceTask extends Thread implements IServiceTask{
     protected String taskName = "";
     
+    @Override
     public void startTask(){
         this.start();
     }
 
+    @Override
     public void stopTask(){
         this.interrupt();
     }

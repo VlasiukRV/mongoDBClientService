@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mongodb.client.MongoDatabase;
 import com.vr.mongoDBClient.services.MongoDBService;
 import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessConsoleListiner;
-import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessListiner;
+import com.vr.mongoDBClient.services.runtimeProcessRuner.IRuntimeProcessListiner;
 
 @RestController
 @RequestMapping(value = "/mongodbservice")
@@ -26,7 +26,7 @@ public class MongoDBClientController {
     public Map<String, Object> startMongoDBServer() {	
 	try {
 	    
-	    Set<RuntimeProcessListiner> processListiners = new HashSet<RuntimeProcessListiner>();
+	    Set<IRuntimeProcessListiner> processListiners = new HashSet<IRuntimeProcessListiner>();
 	    processListiners.add(new RuntimeProcessConsoleListiner());	    
 	    mongoDBServices.startMongoDBServer(processListiners);
 	    
