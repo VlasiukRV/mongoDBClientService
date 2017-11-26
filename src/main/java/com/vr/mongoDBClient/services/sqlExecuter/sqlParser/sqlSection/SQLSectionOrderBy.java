@@ -13,7 +13,7 @@ public class SQLSectionOrderBy extends SQLSection{
     private String sectionParamRegex = "((,|^)\\s*\\w+\\s*\\w*)";
     
     private String sortingModifierRegex = "(ASC|DESC)";
-    private @Getter @Setter List<FieldSotring> fields = new ArrayList<>();
+    private @Getter @Setter List<FieldSorting> fields = new ArrayList<>();
     
     public SQLSectionOrderBy() {
 	this.sqlLiteral = SQLLiteral.ORDERBY;
@@ -35,7 +35,7 @@ public class SQLSectionOrderBy extends SQLSection{
 		}		
 		String fieldName = fieldStr.replaceAll(sortingModifierStr, "");
 		
-		FieldSotring field = new FieldSotring();
+		FieldSorting field = new FieldSorting();
 		field.setFieldName(fieldName);
 		field.setSortingModifier(getSortingModifierLiteralByStr(sortingModifierStr));
 		fields.add(field);
