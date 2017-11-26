@@ -3,7 +3,7 @@ package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
+import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ public class SQLSectionGroupBy extends SQLSection {
     private @Getter String sectionParamRegex = "";
 
     public SQLSectionGroupBy() {
-	this.sqlLiteral = SQLLiterals.GROUPBY;
+	this.sqlLiteral = SQLLiteral.GROUPBY;
     }
     
     @Override

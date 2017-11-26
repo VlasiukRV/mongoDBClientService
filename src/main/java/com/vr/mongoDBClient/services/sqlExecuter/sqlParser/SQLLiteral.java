@@ -1,21 +1,22 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
 
-public enum SQLLiterals {
+public enum SQLLiteral {
     SELECT,
     FROM,
     WHERE,
     GROUPBY,
     ORDERBY,
-    ASC,
-    DESC,
     SKIP,
     LIMIT,
     
     AND,
-    OR,
-    
+    OR,    
+    EQ,
     GT,
     GTE,    
     LT,
-    LTE
+    LTE,
+    
+    ASC,
+    DESC
 }

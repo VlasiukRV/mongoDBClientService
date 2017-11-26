@@ -32,34 +32,34 @@ public class SQLParserSelect extends SQLParser {
     
     @Override
     protected String getSQLComandRegex() {
-	return queryTreeSections.get(SQLLiterals.SELECT).getSectionRegex();
+	return queryTreeSections.get(SQLLiteral.SELECT).getSectionRegex();
     }
     
     public SQLSectionFrom getTarget() {
-	return (SQLSectionFrom) queryTreeSections.get(SQLLiterals.FROM);
+	return (SQLSectionFrom) queryTreeSections.get(SQLLiteral.FROM);
     }
     
     public SQLSectionSelect getProjections() {
-	return (SQLSectionSelect) queryTreeSections.get(SQLLiterals.SELECT);
+	return (SQLSectionSelect) queryTreeSections.get(SQLLiteral.SELECT);
     }
     
     public SQLSectionWhere getCondition() {
-	return (SQLSectionWhere) queryTreeSections.get(SQLLiterals.WHERE);
+	return (SQLSectionWhere) queryTreeSections.get(SQLLiteral.WHERE);
     }
     
     public SQLSectionGroupBy getGroupByField() {
-	return (SQLSectionGroupBy) queryTreeSections.get(SQLLiterals.GROUPBY);
+	return (SQLSectionGroupBy) queryTreeSections.get(SQLLiteral.GROUPBY);
     }
     
     public SQLSectionOrderBy getOrderByField() {
-	return (SQLSectionOrderBy) queryTreeSections.get(SQLLiterals.ORDERBY);
+	return (SQLSectionOrderBy) queryTreeSections.get(SQLLiteral.ORDERBY);
     }
     
     public SQLSectionSkip getSkipRecords() {
-	return (SQLSectionSkip) queryTreeSections.get(SQLLiterals.SKIP);
+	return (SQLSectionSkip) queryTreeSections.get(SQLLiteral.SKIP);
     }
     
     public SQLSectionLimit getMaxRecords() {
-	return (SQLSectionLimit) queryTreeSections.get(SQLLiterals.LIMIT);		
+	return (SQLSectionLimit) queryTreeSections.get(SQLLiteral.LIMIT);		
     }
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public abstract class SQLParser implements ISQLParser{
     protected @Getter @Setter String query = "";
-    protected @Getter @Setter Map<SQLLiterals, SQLSection>queryTreeSections = new TreeMap<>();
+    protected @Getter @Setter Map<SQLLiteral, SQLSection>queryTreeSections = new TreeMap<>();
 
     public SQLParser() {
 	buildSQLQuerySpecification();

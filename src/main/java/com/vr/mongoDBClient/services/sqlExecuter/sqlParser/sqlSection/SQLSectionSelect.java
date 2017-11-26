@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
+import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,10 +17,10 @@ public class SQLSectionSelect extends SQLSection{
     private @Getter @Setter List<String> fields = new ArrayList<>();
     
     public SQLSectionSelect() {
-	this.sqlLiteral = SQLLiterals.SELECT;
+	this.sqlLiteral = SQLLiteral.SELECT;
     }
     
-    @Override
+    @Override    
     public void compileSection() {
 	Pattern pattern = Pattern.compile(sectionParamRegex);
 	Matcher matcher = pattern.matcher(this.sectionValue);

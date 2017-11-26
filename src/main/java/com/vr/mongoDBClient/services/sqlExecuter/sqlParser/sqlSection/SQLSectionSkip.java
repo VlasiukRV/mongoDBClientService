@@ -3,30 +3,32 @@ package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
+import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
 public class SQLSectionSkip extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)SKIP(.+)(?=)LIMIT.*";
-    private @Getter String sectionParamRegex = "";
+    private @Getter String sectionParamRegex = "\\d+";
+    
+    private @Getter int skip = 0;
     
     public SQLSectionSkip() {
-	this.sqlLiteral = SQLLiterals.SKIP;
+	this.sqlLiteral = SQLLiteral.SKIP;
     }
     
     @Override
     public void compileSection() {
 	Pattern pattern = Pattern.compile(sectionParamRegex);
 	Matcher matcher = pattern.matcher(this.sectionValue);
-	while (matcher.find()) {
-	    
+	if (matcher.find()) {
+	    skip = Integer.parseInt(matcher.group().replaceAll(" ", ""));
 	}	
     }
     
     @Override
     public boolean sectionIsUsed() {
-	return false;
+	return skip != 0;
     }
     
 }

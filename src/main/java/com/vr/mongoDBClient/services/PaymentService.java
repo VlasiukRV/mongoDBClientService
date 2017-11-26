@@ -30,21 +30,19 @@ public class PaymentService {
     
     public void generateTestPayments() {
 	
-	Payment payment1 = new Payment("payment1", 100);
+	Payment payment1 = new Payment("payment1", 100, 6);
 	payment1.setCustomer(new Customer("Customer1"));
 	payment1.setId("1");
 	addPayment(payment1);
 	
-	Payment payment2 = new Payment("payment1", 200);
+	Payment payment2 = new Payment("payment1", 200, 10);
 	payment2.setCustomer(new Customer("Customer2"));
 	payment2.setId("2");
 	addPayment(payment2);
     }    
     
     public List<Document> getPayments() {
-	String query = "SELECT   amount , customer  ,  description FROM payment  WHERE;";
-	return sqlExecuter.executeSQLQuery(databaseName, query);
-	/*return getpaymentCollection().find().into(new ArrayList<Document>());*/
+	return getpaymentCollection().find().into(new ArrayList<Document>());
     }
     
     public void updatePayment() {
@@ -61,9 +59,10 @@ public class PaymentService {
 	Document documentCustomer = new Document("name", payment.getCustomer().getName());
 	    
 	Document documentPayment = new Document("id", payment.getId())
-			.append("description", payment.getDescription())
+			.append("description", payment.getDescription())			
+			.append("customer", documentCustomer)
 			.append("amount", payment.getAmount())
-			.append("customer", documentCustomer);
+			.append("commission", payment.getCommission());
 	
 	getpaymentCollection().insertOne(documentPayment);	
     }

@@ -3,7 +3,7 @@ package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiterals;
+import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class SQLSectionFrom extends SQLSection {
     private @Getter String target = "";
     
     public SQLSectionFrom() {
-	this.sqlLiteral = SQLLiterals.FROM;
+	this.sqlLiteral = SQLLiteral.FROM;
     }
     
     @Override
