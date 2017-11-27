@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.PreDestroy;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.MongoClient;
@@ -117,11 +118,15 @@ public class MongoDBService {
 	return true;
     }    
     
-    public MongoCollection<Document> getCollection(String databaseName, String collectionName ){
+    public MongoCollection<Document> getCollection(String databaseName, String collectionName){
 	MongoClient mongoClient = getMongoClient();
 	
 	MongoDatabase database = mongoClient.getDatabase(databaseName);
 	return database.getCollection(collectionName);	
+    }
+    
+    public ArrayList<Document> getDocumentListByAgregate(String databaseName, String collectionName, List<Bson> aggregateList){	
+	return getCollection(databaseName, collectionName).aggregate(aggregateList).into(new ArrayList<Document>());	
     }
     
     public Document testMongoDbConnection() {

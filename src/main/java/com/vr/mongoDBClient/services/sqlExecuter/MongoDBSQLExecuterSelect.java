@@ -1,6 +1,7 @@
 package com.vr.mongoDBClient.services.sqlExecuter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -12,6 +13,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
 
 import com.vr.mongoDBClient.services.MongoDBService;
 import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
@@ -29,8 +32,14 @@ public class MongoDBSQLExecuterSelect {
     @Autowired
     SQLParserSelect sqlParserSelect;
 
+    String testStr = "";
+    
+    private List<Bson> aggregateList = new ArrayList<>();
+    
     public boolean isCuurentCommand(String query) {
-	return sqlParserSelect.isCurrentCommand(query);
+	// TODO
+	return true;
+	/*return sqlParserSelect.isCurrentCommand(query);*/
     }
 
     public ArrayList<Document> executeSQLQuery(String databaseName, String query) {
@@ -40,55 +49,65 @@ public class MongoDBSQLExecuterSelect {
 	if (collectionName.equals("")) {
 	    return new ArrayList<Document>();
 	}
-
-	ArrayList<Document> result = getCollection(databaseName, collectionName)
-		.find(getFilter())		
-		.projection(getProjection())
-		.sort(getSort())
-		.skip(getDocumentsToSkip())
-		.limit(getMaxRecords())
-		.into(new ArrayList<Document>());
-
-	return result;
-    }
-
-    MongoCollection<Document> getCollection(String databaseName, String collectionName){
-	return mongoDBService.getCollection(databaseName, collectionName);
+	this.aggregateList = new ArrayList<>();
+	addMatcherToAggregateList();
+	addProjectionToAggregateList();
+	addSortToAggregateList();
+	addSkipToAggregateList();
+	addLimitToAggregateList();
+	/*,Aggregates.group("$stars", Accumulators.sum("count", 1))*/
+	
+	return mongoDBService.getDocumentListByAgregate(databaseName, collectionName, aggregateList);
     }
 
     private String getCollectionName() {
 	return sqlParserSelect.getTarget().getTarget();
     }
 
-    private Bson getFilter() {
-	return getFilterExpression(sqlParserSelect.getCondition().getTreeExpression());
-    }
-        
-    private int getDocumentsToSkip() {
-	return sqlParserSelect.getSkipRecords().getSkip();
+    private void addMatcherToAggregateList() {	
+	if(sqlParserSelect.getCondition().isUsed()) {
+	    this.aggregateList.add(Aggregates.match(getFilterExpression(sqlParserSelect.getCondition().getTreeExpression())));
+	}	
     }
     
-    private int getMaxRecords() {
-	return sqlParserSelect.getMaxRecords().getLimit();
-    }
-    
-    private Bson getProjection() {
-	return Projections.fields(Projections.include(getProjectionList()), Projections.excludeId());
+    private void addProjectionToAggregateList() {
+	List<Bson> projections = new ArrayList<>();
+	projections.add(Projections.excludeId());	
+	if(sqlParserSelect.getProjections().isUsed()) {
+	    projections.add(Projections.include(sqlParserSelect.getProjections().getFields()));
+	    
+	}
+	this.aggregateList.add(Aggregates.project(Projections.fields(projections)));
     }
 
-    private Bson getSort() {
-	List<Bson> sorts = new ArrayList<>();
+    private void addSortToAggregateList() {
 	
-	List<String> ascFieldsStr = sqlParserSelect.getOrderByField().getASCFields();
-	if(!ascFieldsStr.isEmpty()) {
-	    sorts.add(Sorts.ascending(ascFieldsStr));
+	if (sqlParserSelect.getOrderByField().isUsed()) {
+	    List<Bson> sorts = new ArrayList<>();
+	    
+	    List<String> ascFieldsStr = sqlParserSelect.getOrderByField().getASCFields();
+	    if (!ascFieldsStr.isEmpty()) {
+		sorts.add(Sorts.ascending(ascFieldsStr));
+	    }
+	    List<String> descFieldsStr = sqlParserSelect.getOrderByField().getDESCFields();
+	    if (!descFieldsStr.isEmpty()) {
+		sorts.add(Sorts.descending(descFieldsStr));
+	    }
+	    
+	    this.aggregateList.add(Aggregates.sort(Sorts.orderBy(sorts)));
+	}	
+    }
+     
+    private void addSkipToAggregateList() {	
+	if(sqlParserSelect.getSkipRecords().isUsed()) {
+	    this.aggregateList.add(Aggregates.skip(sqlParserSelect.getSkipRecords().getSkip()));    
+	}	
+    }
+    
+    private void addLimitToAggregateList() {
+	if(sqlParserSelect.getMaxRecords().isUsed()) {
+	    this.aggregateList.add(Aggregates.limit(sqlParserSelect.getMaxRecords().getLimit()));
 	}
-	List<String> descFieldsStr = sqlParserSelect.getOrderByField().getDESCFields();
-	if(!descFieldsStr.isEmpty()) {
-	    sorts.add(Sorts.descending(descFieldsStr));
-	}
-	
-	return Sorts.orderBy(sorts);
     }
     
     private Bson getFilterExpression(IConditionalExpression conditionalExpression) {
@@ -134,10 +153,6 @@ public class MongoDBSQLExecuterSelect {
 	}
 	
 	return new Document();		
-    }
-
-    private List<String> getProjectionList() {
-	return sqlParserSelect.getProjections().getFields();
     }
 
 }

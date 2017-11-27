@@ -8,7 +8,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 import lombok.Getter;
 
 public class SQLSectionFrom extends SQLSection {
-    private @Getter String sectionRegex = ".*(?<=)FROM(.+)(?=)WHERE.*";
+    private @Getter String sectionRegex = ".*(?<=)FROM(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = ".*[^;]+";
     
     private @Getter String target = "";
@@ -28,7 +28,7 @@ public class SQLSectionFrom extends SQLSection {
     }
     
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return ! target.equals("");
     }
 }

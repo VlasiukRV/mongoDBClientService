@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SQLSectionWhere extends SQLSection {
-    private @Getter String sectionRegex = ".*(?<=)WHERE(.+)(?=)GROUP BY.*";
+    private @Getter String sectionRegex = ".*(?<=)WHERE(.+)(?=)@NEXT_COMMAND@.*";
     
     private String startExpressionBlockRegex = "\\(";
     private String stopExpressionBlockRegex = "\\)";    
@@ -26,22 +26,22 @@ public class SQLSectionWhere extends SQLSection {
     @Override
     public void compileSection() {
 	treeExpression = null;
-	treeExpression = getTreeExpression(this.sectionValue);
+	treeExpression = buildTreeExpression(this.sectionValue);
     }
 
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return treeExpression != null;
     }
     
-    private IConditionalExpression getTreeExpression(String expression) {
+    private IConditionalExpression buildTreeExpression(String expression) {
 	
 	Map<String, Object> expressionBlock = getExpressionBlock(expression);
 	if(expressionBlock.get("expressionBlock") != "") {
 	    
 		SQLLiteral operator = (SQLLiteral)expressionBlock.get("expressionOperator");			
-		IConditionalExpression valueLeft = getTreeExpression((String)expressionBlock.get("expressionLeft"));
-		IConditionalExpression valueRight = getTreeExpression((String)expressionBlock.get("expressionRight"));
+		IConditionalExpression valueLeft = buildTreeExpression((String)expressionBlock.get("expressionLeft"));
+		IConditionalExpression valueRight = buildTreeExpression((String)expressionBlock.get("expressionRight"));
 		
 		TreeExpression treeExpression = new TreeExpression(operator, valueLeft, valueRight);
 		return treeExpression;	    

@@ -8,7 +8,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 import lombok.Getter;
 
 public class SQLSectionSkip extends SQLSection {
-    private @Getter String sectionRegex = ".*(?<=)SKIP(.+)(?=)LIMIT.*";
+    private @Getter String sectionRegex = ".*(?<=)SKIP(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = "\\d+";
     
     private @Getter int skip = 0;
@@ -27,7 +27,7 @@ public class SQLSectionSkip extends SQLSection {
     }
     
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return skip != 0;
     }
     

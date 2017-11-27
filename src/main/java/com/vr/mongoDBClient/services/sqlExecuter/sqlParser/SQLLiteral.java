@@ -1,22 +1,31 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
 
 public enum SQLLiteral {
-    SELECT,
-    FROM,
-    WHERE,
-    GROUPBY,
-    ORDERBY,
-    SKIP,
-    LIMIT,
+    SELECT("SELECT"),
+    FROM("FROM"),
+    WHERE("WHERE"),
+    GROUPBY("GROUP BY"),
+    ORDERBY("ORDER BY"),
+    SKIP("SKIP"),
+    LIMIT("LIMIT"),
     
-    AND,
-    OR,    
-    EQ,
-    GT,
-    GTE,    
-    LT,
-    LTE,
+    AND("AND"),
+    OR("OR"),    
+    EQ("EQ"),
+    GT("GT"),
+    GTE("GTE"),
+    LT("LT"),
+    LTE("LTE"),
     
-    ASC,
-    DESC
+    ASC("ASC"),
+    DESC("DESC");
+    
+    private String name;
+    
+    SQLLiteral(String name) {
+        this.name = name;
+    }    
+    public String getName() {
+        return name;
+    }
 }

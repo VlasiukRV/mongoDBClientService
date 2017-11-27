@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SQLSectionSelect extends SQLSection{
-    private @Getter String sectionRegex = "\\s*(?<=)SELECT(.+)(?=)FROM.*";
+    private @Getter @Setter String sectionRegex = "\\s*(?<=)SELECT(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = "(\\s*[//*\\.\\w]*\\s*,*)";
     
     private @Getter @Setter List<String> fields = new ArrayList<>();
@@ -28,14 +28,14 @@ public class SQLSectionSelect extends SQLSection{
 	while (matcher.find()) {	    
 	    String field = matcher.group(1);
 	    field = field.replaceAll(",", "").replaceAll(" ", "");
-	    if(!field.equals("")) {
+	    if(!field.equals("")&&!field.equals("*")) {
 		fields.add(field);
 	    }
 	}	
     }
     
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return !fields.isEmpty();
     }
 }

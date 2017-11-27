@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SQLSectionOrderBy extends SQLSection{
-    private @Getter String sectionRegex =  ".*(?<=)ORDER BY(.+)(?=)SKIP.*";
+    private @Getter String sectionRegex =  ".*(?<=)ORDER BY(.+)(?=)@NEXT_COMMAND@.*";
     private String sectionParamRegex = "((,|^)\\s*\\w+\\s*\\w*)";
     
     private String sortingModifierRegex = "(ASC|DESC)";
@@ -44,7 +44,7 @@ public class SQLSectionOrderBy extends SQLSection{
     }
     
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return ! fields.isEmpty();
     }
     

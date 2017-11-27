@@ -8,7 +8,7 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 import lombok.Getter;
 
 public class SQLSectionGroupBy extends SQLSection {
-    private @Getter String sectionRegex = ".*(?<=)GROUP BY(.+)(?=)ORDER BY.*";
+    private @Getter String sectionRegex = ".*(?<=)GROUP BY(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = "";
 
     public SQLSectionGroupBy() {
@@ -25,7 +25,7 @@ public class SQLSectionGroupBy extends SQLSection {
     }
 
     @Override
-    public boolean sectionIsUsed() {
+    public boolean isUsed() {
 	return false;
     }
     

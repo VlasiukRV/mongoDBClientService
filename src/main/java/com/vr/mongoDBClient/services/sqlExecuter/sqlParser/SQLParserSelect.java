@@ -1,5 +1,7 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Component;
 
 import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionFrom;
@@ -21,13 +23,15 @@ public class SQLParserSelect extends SQLParser {
     protected void buildSQLQuerySpecification() {
 	super.buildSQLQuerySpecification();
 	
-	signQuerySection(SQLSectionSelect.class);
-	signQuerySection(SQLSectionFrom.class);
-	signQuerySection(SQLSectionWhere.class);
-	signQuerySection(SQLSectionGroupBy.class);
-	signQuerySection(SQLSectionOrderBy.class);
-	signQuerySection(SQLSectionSkip.class);
-	signQuerySection(SQLSectionLimit.class);		
+	signQuerySection(Arrays.asList(
+		SQLSectionSelect.class,
+		SQLSectionFrom.class,
+		SQLSectionWhere.class,
+		SQLSectionGroupBy.class,
+		SQLSectionOrderBy.class,
+		SQLSectionSkip.class,
+		SQLSectionLimit.class
+		));
     }
     
     @Override
