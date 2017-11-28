@@ -1,6 +1,6 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 
-import java.util.List;
+import java.text.ParseException;
 
 import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
 
@@ -14,8 +14,16 @@ public abstract class SQLSection {
     protected @Getter @Setter String sectionRegex = "";
     
     
-    protected @Getter @Setter String sectionValue = "";
+    protected @Getter String sectionValue = "";
     
-    public abstract void compileSection();
+    public void setSectionValue(String sectionValue) {
+	if(sectionValue.trim().length() == 0){
+	    this.sectionValue = "";
+	}else {
+	    this.sectionValue = sectionValue;
+	}	
+    }
+    
+    public abstract void compileSection() throws ParseException;
     public abstract boolean isUsed();
 }

@@ -30,7 +30,16 @@ public class AjaxResponse {
         return buildResponse(200, "success", "");
     }
 
+    public static Map<String, Object> errorResponse(String errorMessage, Object object) {
+        return buildResponse(300, errorMessage, object);
+    }
+    
     public static Map<String, Object> errorResponse(String errorMessage) {
         return buildResponse(300, errorMessage, "");
     }
+    
+    public static Map<String, Object> errorResponse(Object object) {
+        return buildResponse(300, "", object);
+    }
+    
 }

@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,15 +19,14 @@ public class SQLSectionLimit extends SQLSection {
     }
     
     @Override
-    public void compileSection() {
+    public void compileSection() throws ParseException {
 	Pattern pattern = Pattern.compile(sectionParamRegex);
 	Matcher matcher = pattern.matcher(this.sectionValue);
 	if (matcher.find()) {
 	    limit = Integer.parseInt(matcher.group().replaceAll(" ", ""));
-/*	    if(limit == 0) {
-		limit = 0;
-	    }
-*/	}	
+	}else {
+	    throw new ParseException("Missing LIMIT rows", 0);
+	}	
     }
     
     @Override

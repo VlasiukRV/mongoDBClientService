@@ -1,31 +1,22 @@
 package com.vr.mongoDBClient.entity;
 
-
-/*import org.springframework.data.annotation.Id;*/
+import lombok.Getter;
+import lombok.Setter;
 
 public class Customer {
-    /*@Id*/
-    private String id;
-    private String name;
+    private @Setter @Getter String name;
+    private @Setter @Getter String accountNumber;
     
     public Customer() {}
 
     public Customer(String name) {
         this.name = name;
     }
-       
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+           
     @Override
     public String toString() {
         return String.format(
                 "Customer[id=%s, name='%s']",
-                id, name);
+                name);
     }
 }

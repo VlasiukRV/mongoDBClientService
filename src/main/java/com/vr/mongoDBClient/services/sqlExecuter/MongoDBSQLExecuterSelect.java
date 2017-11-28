@@ -1,7 +1,7 @@
 package com.vr.mongoDBClient.services.sqlExecuter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -9,11 +9,9 @@ import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 
 import com.vr.mongoDBClient.services.MongoDBService;
@@ -42,7 +40,7 @@ public class MongoDBSQLExecuterSelect {
 	/*return sqlParserSelect.isCurrentCommand(query);*/
     }
 
-    public ArrayList<Document> executeSQLQuery(String databaseName, String query) {
+    public ArrayList<Document> executeSQLQuery(String databaseName, String query) throws ParseException {
 	sqlParserSelect.compileSQLQuery(query);
 
 	String collectionName = getCollectionName();

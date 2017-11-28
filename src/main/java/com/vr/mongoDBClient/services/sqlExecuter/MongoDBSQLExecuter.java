@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.services.sqlExecuter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.bson.Document;
@@ -13,11 +14,11 @@ public class MongoDBSQLExecuter implements ISQLExecuter {
     MongoDBSQLExecuterSelect mongoDBSQLExecuterSelect; 
     
     @Override
-    public ArrayList<Document> executeSQLQuery(String databaseName, String query) {
+    public ArrayList<Document> executeSQLQuery(String databaseName, String query) throws ParseException {
 	return executeSQLQuerySelect(databaseName, query);
     }
     
-    private ArrayList<Document> executeSQLQuerySelect(String databaseName, String query) {
+    private ArrayList<Document> executeSQLQuerySelect(String databaseName, String query) throws ParseException {
 	if (mongoDBSQLExecuterSelect.isCuurentCommand(query)){
 	    return mongoDBSQLExecuterSelect.executeSQLQuery(databaseName, query);
 	}

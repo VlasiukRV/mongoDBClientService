@@ -21,13 +21,7 @@ public class PaymentController {
 	paymentService.generateTestPayments();
 	return AjaxResponse.successResponse("Payments generated");
     }
-
-    @RequestMapping(value = "/updateTestPayment", method = RequestMethod.PUT, produces = "application/json; charset=utf-8")
-    public Map<String, Object> updateTestPayment(){
-	paymentService.updatePayment();
-	return AjaxResponse.successResponse("Payments updated");
-    }
-    
+ 
     @RequestMapping(value = "/getTestPayments", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public Map<String, Object> getTestPayments() {
 	return AjaxResponse.successResponse(paymentService.getPayments());

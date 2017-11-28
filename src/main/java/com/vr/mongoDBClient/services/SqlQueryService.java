@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.services;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.bson.Document;
@@ -17,7 +18,7 @@ public class SqlQueryService {
     @Autowired
     MongoDBSQLExecuter sqlExecuter;
 
-    public ArrayList<Document> runSqlQuery(@RequestParam String query) {
+    public ArrayList<Document> runSqlQuery(@RequestParam String query) throws ParseException {
 	return sqlExecuter.executeSQLQuery(databaseName, query);
     }
     

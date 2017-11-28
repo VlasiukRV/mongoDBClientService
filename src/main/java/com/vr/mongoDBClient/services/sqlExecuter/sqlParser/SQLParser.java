@@ -1,13 +1,12 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.SwingConstants;
 
 import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSection;
 
@@ -26,7 +25,7 @@ public abstract class SQLParser implements ISQLParser{
     }
     
     @Override
-    public void compileSQLQuery(String query) {
+    public void compileSQLQuery(String query) throws ParseException{
 	this.query = query;	
 	buildQueryTreeSections();
     }   
@@ -63,7 +62,8 @@ public abstract class SQLParser implements ISQLParser{
 	    return sectionsSequence.get(currenttSectionIndex+1);
     }
     
-    protected void buildQueryTreeSections() {
+    protected void buildQueryTreeSections() throws ParseException{
+	buildSQLQuerySpecification();
 	buildSectionsSequence();
 
 	queryTreeSections.forEach((sqlSection, section) -> {
@@ -74,22 +74,16 @@ public abstract class SQLParser implements ISQLParser{
 	    Matcher matcher = pattern.matcher(query);
 	    if (matcher.find()) {
 		section.setSectionValue(matcher.group(1));
-		section.compileSection();
+		try {
+		    section.compileSection();
+		} catch (ParseException ex) {
+		    throw new RuntimeException(ex);
+		}
 	    }
 	});
 
     }
     
-    protected void _buildQueryTreeSections() {
-	queryTreeSections.forEach((sqlSection, section)->{
-	    Pattern pattern = Pattern.compile(section.getSectionRegex());
-	    Matcher matcher = pattern.matcher(query);
-	    if (matcher.find()) {
-		section.setSectionValue(matcher.group(1));
-		section.compileSection();
-	    }
-	});	
-    }        
     protected void signQuerySection(List<Class<? extends SQLSection>> classList) {
 	sectionsregexp = "";
 	for (Class<? extends SQLSection> claz : classList) {

@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,13 +19,16 @@ public class SQLSectionFrom extends SQLSection {
     }
     
     @Override
-    public void compileSection() {
+    public void compileSection() throws ParseException {
 	target = "";
 	Pattern pattern = Pattern.compile(sectionParamRegex);
 	Matcher matcher = pattern.matcher(this.sectionValue);
 	if (matcher.find()) {
 	    target = matcher.group().replaceAll(" ", "");
-	}	
+	}
+	if(target.equals("")) {
+	    throw new ParseException("Table name Missing", 0);
+	}
     }
     
     @Override

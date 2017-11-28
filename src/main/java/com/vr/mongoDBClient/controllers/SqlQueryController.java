@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.controllers;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,12 @@ public class SqlQueryController {
     
     @RequestMapping(value = "/run", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public Map<String, Object> runSqlQuery(@RequestParam String query) {
-	return AjaxResponse.successResponse(sqlQueryService.runSqlQuery(query));
+	try {
+	    return AjaxResponse.successResponse(sqlQueryService.runSqlQuery(query));
+	} catch (Exception ex) {
+	    System.out.println(ex.getMessage());
+	    return AjaxResponse.errorResponse(ex.getMessage(), new ArrayList<>());
+	}
     }
     
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Payment {
-    private @Getter @Setter String id;
+    
     private @Getter @Setter String description;
     private @Getter @Setter int amount;
     private @Getter @Setter int commission;

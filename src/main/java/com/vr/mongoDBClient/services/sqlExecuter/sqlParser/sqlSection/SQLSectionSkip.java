@@ -1,5 +1,6 @@
 package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
 
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,12 +19,14 @@ public class SQLSectionSkip extends SQLSection {
     }
     
     @Override
-    public void compileSection() {
+    public void compileSection() throws ParseException {
 	Pattern pattern = Pattern.compile(sectionParamRegex);
 	Matcher matcher = pattern.matcher(this.sectionValue);
 	if (matcher.find()) {
 	    skip = Integer.parseInt(matcher.group().replaceAll(" ", ""));
-	}	
+	}else {
+	    throw new ParseException("Missing SKIP rows", 0);
+	}
     }
     
     @Override
