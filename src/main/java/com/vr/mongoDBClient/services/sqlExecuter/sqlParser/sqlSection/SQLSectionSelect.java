@@ -31,7 +31,7 @@ public class SQLSectionSelect extends SQLSection{
 	} else {
 	    while (matcher.find()) {
 		String field = matcher.group(1);
-		field = field.replaceAll(" ", "");
+		field = field.replaceAll(" ", "").replace(",", "");
 		if (!field.equals("") && !field.equals("*")) {
 		    fields.add(field);
 		} else {

@@ -8,24 +8,24 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.vr.mongoDBClient.entity.Customer;
 import com.vr.mongoDBClient.entity.Payment;
-import com.vr.mongoDBClient.services.sqlExecuter.MongoDBSQLExecuter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Component
 public class PaymentService {
-    
-    private String databaseName = "testbd";
-    private String collectionName = "payment";
-    
+      
     @Autowired
-    MongoDBService mongoDBService;
+    private MongoDBService mongoDBService;
+        
+    private @Getter @Setter String collectionName = "payment";
     
-    @Autowired
-    MongoDBSQLExecuter sqlExecuter;
+    public PaymentService() {
+	
+    }  
     
     public void generateTestPayments() {
 	
@@ -55,27 +55,24 @@ public class PaymentService {
 	return getpaymentCollection().find().into(new ArrayList<Document>());
     }
     
-    private void addPayments(List<Payment> payments) {
+    public void addPayments(List<Payment> payments) {
 	List<Document> documetsList = new ArrayList<>();
 	for (Payment payment : payments) {
-	    Document paymentDocument = getPaymentDocument(payment);
+	    Document paymentDocument = getNewPaymentDocument(payment);
 	    documetsList.add(paymentDocument);
 	}
 	getpaymentCollection().insertMany(documetsList);
     }
     
     private void addPayment(Payment payment) {
-	getpaymentCollection().insertOne(getPaymentDocument(payment));	
+	getpaymentCollection().insertOne(getNewPaymentDocument(payment));	
     }
         
     private MongoCollection<Document> getpaymentCollection(){
-	MongoClient mongoClient = mongoDBService.getMongoClient();
-	
-	MongoDatabase database = mongoClient.getDatabase(databaseName);
-	return database.getCollection(collectionName);	
+	return mongoDBService.getCollection(collectionName);
     }
     
-    private Document getPaymentDocument(Payment payment) {
+    private Document getNewPaymentDocument(Payment payment) {
 	Document documentCustomer = new Document("name", payment.getCustomer().getName());
 	    
 	Document documentPayment = new Document("description", payment.getDescription())			

@@ -1,10 +1,10 @@
 package com.vr.mongoDBClient.services.sqlExecuter;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.Document;
 
 public interface ISQLExecuter {
-    public ArrayList<Document> executeSQLQuery(String databaseName, String query) throws ParseException;
+    public List<Document> executeSQLQuery(String query) throws ParseException;
 }

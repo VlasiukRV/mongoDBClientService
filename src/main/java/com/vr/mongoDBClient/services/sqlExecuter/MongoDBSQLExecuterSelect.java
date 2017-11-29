@@ -25,22 +25,24 @@ import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.TreeExpres
 public class MongoDBSQLExecuterSelect {
 
     @Autowired
-    MongoDBService mongoDBService;
+    private MongoDBService mongoDBService;
 
     @Autowired
-    SQLParserSelect sqlParserSelect;
-
-    String testStr = "";
+    private SQLParserSelect sqlParserSelect;
     
     private List<Bson> aggregateList = new ArrayList<>();
     
+    public MongoDBSQLExecuterSelect() {
+	
+    }
+    
     public boolean isCuurentCommand(String query) {
-	// TODO
+	// TODO validate query
 	return true;
 	/*return sqlParserSelect.isCurrentCommand(query);*/
     }
 
-    public ArrayList<Document> executeSQLQuery(String databaseName, String query) throws ParseException {
+    public List<Document> executeSQLQuery(String query) throws ParseException {
 	sqlParserSelect.compileSQLQuery(query);
 
 	String collectionName = getCollectionName();
@@ -53,9 +55,9 @@ public class MongoDBSQLExecuterSelect {
 	addSortToAggregateList();
 	addSkipToAggregateList();
 	addLimitToAggregateList();
-	/*,Aggregates.group("$stars", Accumulators.sum("count", 1))*/
+	// TODO for GROUP BY /*,Aggregates.group("$stars", Accumulators.sum("count", 1)) */
 	
-	return mongoDBService.getDocumentListByAgregate(databaseName, collectionName, aggregateList);
+	return mongoDBService.getDocumentListByAgregate(collectionName, aggregateList);
     }
 
     private String getCollectionName() {

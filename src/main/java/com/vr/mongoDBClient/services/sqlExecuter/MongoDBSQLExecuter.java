@@ -1,7 +1,7 @@
 package com.vr.mongoDBClient.services.sqlExecuter;
 
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +11,20 @@ import org.springframework.stereotype.Component;
 public class MongoDBSQLExecuter implements ISQLExecuter {
     
     @Autowired
-    MongoDBSQLExecuterSelect mongoDBSQLExecuterSelect; 
+    private MongoDBSQLExecuterSelect mongoDBSQLExecuterSelect; 
     
-    @Override
-    public ArrayList<Document> executeSQLQuery(String databaseName, String query) throws ParseException {
-	return executeSQLQuerySelect(databaseName, query);
+    public MongoDBSQLExecuter() {
+	
     }
     
-    private ArrayList<Document> executeSQLQuerySelect(String databaseName, String query) throws ParseException {
+    @Override
+    public List<Document> executeSQLQuery(String query) throws ParseException {
+	return executeSQLQuerySelect(query);
+    }
+    
+    private List<Document> executeSQLQuerySelect(String query) throws ParseException {
 	if (mongoDBSQLExecuterSelect.isCuurentCommand(query)){
-	    return mongoDBSQLExecuterSelect.executeSQLQuery(databaseName, query);
+	    return mongoDBSQLExecuterSelect.executeSQLQuery(query);
 	}
 	return null;
     }
