@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.vr.mongoDBClient.services.sqlExecuter.MongoDBSQLExecuter;
+import com.vr.mongoDBClient.services.sqlExecutor.MongoDBSQLExecutor;
+import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
 
 @Component
 public class SqlQueryService {
 
     @Autowired
-    MongoDBSQLExecuter sqlExecuter;
+    MongoDBSQLExecutor sqlExecutor;
 
     public SqlQueryService() {
 	
     }
     
-    public List<Document> runSqlQuery(@RequestParam String query) throws ParseException {
-	return sqlExecuter.executeSQLQuery(query);
+    public SQLResult runSqlQuery(@RequestParam String query) throws ParseException {
+	return sqlExecutor.runSqlQuery(query);
     }
     
 }

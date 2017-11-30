@@ -19,12 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.vr.mongoDBClient.controllers.SqlQueryController;
 import com.vr.mongoDBClient.entity.Customer;
 import com.vr.mongoDBClient.entity.Payment;
-import com.vr.mongoDBClient.services.MongoDBService;
 import com.vr.mongoDBClient.services.PaymentService;
-import com.vr.mongoDBClient.services.sqlExecuter.MongoDBSQLExecuterSelect;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLParserSelect;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.FieldSorting;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
+import com.vr.mongoDBClient.services.sqlExecutor.mongo.MongoDBSQLExecutorSelect;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLParserSelect;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.FieldSorting;
 import com.vr.mongoDBClient.sqlParser.sqlSelect.SQLParserSelectTestQuery;
 
 @RunWith(SpringRunner.class)
@@ -38,7 +38,7 @@ public class MongoDbClientApplicationTests {
     private PaymentService paymentService; 
     
     @Autowired
-    private MongoDBSQLExecuterSelect sqlExecuterSelect;
+    private MongoDBSQLExecutorSelect sqlExecutorSelect;
     
     @Autowired
     private SqlQueryController sqlQueryController;
@@ -109,7 +109,7 @@ public class MongoDbClientApplicationTests {
 	List<Document> documents2 = new ArrayList<>();
 	
 	try {
-	    documents2 = sqlExecuterSelect.executeSQLQuery("SELECT _id, amount, commission, customer, description FROM "+paymentService.getCollectionName()+";");
+	    documents2 = sqlExecutorSelect.executeSQLQuery("SELECT _id, amount, commission, customer, description FROM "+paymentService.getCollectionName()+";");
 	    mongodbService.dropDataBase(mongodbService.getDatabaseName());
 	    Thread.sleep(3000);
 	    mongodbService.stopMongoDBServer();

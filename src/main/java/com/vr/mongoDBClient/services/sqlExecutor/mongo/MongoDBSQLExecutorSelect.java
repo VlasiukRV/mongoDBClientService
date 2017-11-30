@@ -1,4 +1,4 @@
-package com.vr.mongoDBClient.services.sqlExecuter;
+package com.vr.mongoDBClient.services.sqlExecutor.mongo;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -6,82 +6,84 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Aggregates;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
+import com.vr.mongoDBClient.services.sqlExecutor.ISQLExecutor;
+import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLParserSelect;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.IConditionalExpression;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SimpleExpression;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.TreeExpression;
 
-import com.vr.mongoDBClient.services.MongoDBService;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLParserSelect;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.IConditionalExpression;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SimpleExpression;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.TreeExpression;
+public class MongoDBSQLExecutorSelect implements ISQLExecutor {
 
-@Component
-public class MongoDBSQLExecuterSelect {
-
-    @Autowired
     private MongoDBService mongoDBService;
 
-    @Autowired
-    private SQLParserSelect sqlParserSelect;
-    
+    private SQLParserSelect sqlParserSelect;    
+    private String tableName;
     private List<Bson> aggregateList = new ArrayList<>();
-    
-    public MongoDBSQLExecuterSelect() {
-	
+        
+    public MongoDBSQLExecutorSelect(MongoDBService mongoDBService) {
+	this.mongoDBService = mongoDBService;
     }
     
-    public boolean isCuurentCommand(String query) {
-	// TODO validate query
-	return true;
-	/*return sqlParserSelect.isCurrentCommand(query);*/
+    @Override
+    public void executeSQLQuery(String query) throws ParseException {
+	compileSQLQuery(query)
+	.setUpTableName()
+	.addMatcherToAggregateList()
+	.addProjectionToAggregateList()
+	.addSortToAggregateList()
+	.addSkipToAggregateList()
+	.addLimitToAggregateList();
     }
 
-    public List<Document> executeSQLQuery(String query) throws ParseException {
-	sqlParserSelect.compileSQLQuery(query);
-
-	String collectionName = getCollectionName();
-	if (collectionName.equals("")) {
-	    return new ArrayList<Document>();
-	}
-	this.aggregateList = new ArrayList<>();
-	addMatcherToAggregateList();
-	addProjectionToAggregateList();
-	addSortToAggregateList();
-	addSkipToAggregateList();
-	addLimitToAggregateList();
-	// TODO for GROUP BY /*,Aggregates.group("$stars", Accumulators.sum("count", 1)) */
-	
-	return mongoDBService.getDocumentListByAgregate(collectionName, aggregateList);
+    public SQLResult<List<Document>> returnResult() {	
+	return new SQLResult<>(getDocumentList());
     }
-
-    private String getCollectionName() {
-	return sqlParserSelect.getTarget().getTarget();
+    
+    private List<Document> getDocumentList() {
+	if (mongoDBService == null || tableName.equals("")) {
+	    return new ArrayList<>();
+	}	
+	return mongoDBService.getDocumentListByAgregate(tableName, aggregateList);
     }
-
-    private void addMatcherToAggregateList() {	
+    
+    private MongoDBSQLExecutorSelect compileSQLQuery(String query) throws ParseException{
+	sqlParserSelect = new SQLParserSelect();
+	sqlParserSelect.compileSQLQuery(query);	
+	return this;
+    }
+    
+    private MongoDBSQLExecutorSelect setUpTableName() {
+	tableName = sqlParserSelect.getTarget().getTarget();
+	return this;
+    }
+    
+    private MongoDBSQLExecutorSelect addMatcherToAggregateList() {	
 	if(sqlParserSelect.getCondition().isUsed()) {
 	    this.aggregateList.add(Aggregates.match(getFilterExpression(sqlParserSelect.getCondition().getTreeExpression())));
 	}	
+	return this;
     }
     
-    private void addProjectionToAggregateList() {
+    private MongoDBSQLExecutorSelect addProjectionToAggregateList() {
 	List<Bson> projections = new ArrayList<>();
 	projections.add(Projections.excludeId());	
 	if(sqlParserSelect.getProjections().isUsed()) {
 	    projections.add(Projections.include(sqlParserSelect.getProjections().getFields()));
 	    
 	}
-	this.aggregateList.add(Aggregates.project(Projections.fields(projections)));
+	this.aggregateList.add(Aggregates.project(Projections.fields(projections)));	
+	return this;
     }
 
-    private void addSortToAggregateList() {
-	
+    private MongoDBSQLExecutorSelect addSortToAggregateList() {	
 	if (sqlParserSelect.getOrderByField().isUsed()) {
 	    List<Bson> sorts = new ArrayList<>();
 	    
@@ -96,22 +98,24 @@ public class MongoDBSQLExecuterSelect {
 	    
 	    this.aggregateList.add(Aggregates.sort(Sorts.orderBy(sorts)));
 	}	
+	return this;
     }
      
-    private void addSkipToAggregateList() {	
+    private MongoDBSQLExecutorSelect addSkipToAggregateList() {	
 	if(sqlParserSelect.getSkipRecords().isUsed()) {
 	    this.aggregateList.add(Aggregates.skip(sqlParserSelect.getSkipRecords().getSkip()));    
 	}	
+	return this;
     }
     
-    private void addLimitToAggregateList() {
+    private MongoDBSQLExecutorSelect addLimitToAggregateList() {
 	if(sqlParserSelect.getMaxRecords().isUsed()) {
 	    this.aggregateList.add(Aggregates.limit(sqlParserSelect.getMaxRecords().getLimit()));
-	}
+	}	
+	return this;
     }
-    
+        
     private Bson getFilterExpression(IConditionalExpression conditionalExpression) {
-
 	if(conditionalExpression != null) {
 
 	    if(conditionalExpression.isSimpleExpression()) {
@@ -150,9 +154,7 @@ public class MongoDBSQLExecuterSelect {
 		    break;
 		}
 	    }
-	}
-	
+	}	
 	return new Document();		
     }
-
 }

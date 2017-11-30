@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.client.MongoDatabase;
-import com.vr.mongoDBClient.services.MongoDBService;
-import com.vr.mongoDBClient.services.runtimeProcessRuner.RuntimeProcessConsoleListiner;
-import com.vr.mongoDBClient.services.runtimeProcessRuner.IRuntimeProcessListiner;
+import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
+import com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner.RuntimeProcessConsoleListener;
 
 @RestController
 @RequestMapping(value = "/mongodbservice")
@@ -26,9 +26,9 @@ public class MongoDBClientController {
     public Map<String, Object> startMongoDBServer() {	
 	try {
 	    
-	    Set<IRuntimeProcessListiner> processListiners = new HashSet<IRuntimeProcessListiner>();
-	    processListiners.add(new RuntimeProcessConsoleListiner());	    
-	    mongoDBServices.startMongoDBServer(processListiners);
+	    Set<IRuntimeProcessListener> processListeners = new HashSet<IRuntimeProcessListener>();
+	    processListeners.add(new RuntimeProcessConsoleListener());	    
+	    mongoDBServices.startMongoDBServer(processListeners);
 	    
 	}catch (Exception ex) {
 	    return AjaxResponse.errorResponse(ex.getMessage());

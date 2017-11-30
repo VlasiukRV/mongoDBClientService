@@ -1,4 +1,4 @@
-package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
+package com.vr.mongoDBClient.services.sqlExecutor.sqlParser;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSection;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSection;
 
 import lombok.Getter;
 import lombok.Setter;

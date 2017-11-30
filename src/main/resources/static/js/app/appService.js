@@ -16,11 +16,6 @@
 				displayResponse($scope, {entityName:"Contractors", entityList: entityList});
 			});			
 		};
-		$scope.updateTestPayment = function() {
-			paymentManagment.updateTestPayment(function(response) {
-				displayResponse($scope, {response: response});
-			});			
-		};			
 		
 		function initController() {
 			
@@ -105,16 +100,6 @@
 			},
 			getTestPayments: function(callBack) {
 				paymentService.getTestPayments({}, {},
-						function (response) {
-							callBack(response);
-			    		},
-			    		function (httpResponse) {
-			    			callBack({errorMessage: "http error: "});
-			    		}
-				)
-			},
-			updateTestPayment: function(callBack) {
-				paymentService.updateTestPayment({}, {},
 						function (response) {
 							callBack(response);
 			    		},
@@ -245,10 +230,6 @@
 				getTestPayments: {
 					method: "GET",
 					url: appEnvironment.getAppHttpUrl('/payment/getTestPayments')
-				},
-				updateTestPayment: {
-					method: "PUT",
-					url: appEnvironment.getAppHttpUrl('/payment/updateTestPayment')
 				}
 			}
 		);

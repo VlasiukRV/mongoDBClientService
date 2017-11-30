@@ -1,8 +1,8 @@
-package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
+package com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection;
 
 import java.text.ParseException;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.SQLLiteral;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

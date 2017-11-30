@@ -1,4 +1,4 @@
-package com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection;
+package com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.mongodb.client.MongoCollection;
 import com.vr.mongoDBClient.entity.Customer;
 import com.vr.mongoDBClient.entity.Payment;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,11 +47,7 @@ public class PaymentService {
 	 Document updateQuery = new Document("id", "1");
 	 getpaymentCollection().updateOne(updateQuery, new Document("$set", new Document("description", "car arenda")));
     }
-    
-    public List<Document> executeQuery(String query) {	
-	return getpaymentCollection().find().into(new ArrayList<Document>());
-    }
-    
+        
     public List<Document> getPayments() {
 	return getpaymentCollection().find().into(new ArrayList<Document>());
     }
@@ -75,11 +72,10 @@ public class PaymentService {
     private Document getNewPaymentDocument(Payment payment) {
 	Document documentCustomer = new Document("name", payment.getCustomer().getName());
 	    
-	Document documentPayment = new Document("description", payment.getDescription())			
+	return new Document("description", payment.getDescription())			
 			.append("customer", documentCustomer)
 			.append("amount", payment.getAmount())
 			.append("commission", payment.getCommission());
-	return documentPayment;
     }
     
 }

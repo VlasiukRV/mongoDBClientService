@@ -1,16 +1,16 @@
-package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
+package com.vr.mongoDBClient.services.sqlExecutor.sqlParser;
 
 import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionFrom;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionGroupBy;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionLimit;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionOrderBy;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionSelect;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionSkip;
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.SQLSectionWhere;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionFrom;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionGroupBy;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionLimit;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionOrderBy;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionSelect;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionSkip;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionWhere;
 
 @Component
 public class SQLParserSelect extends SQLParser {

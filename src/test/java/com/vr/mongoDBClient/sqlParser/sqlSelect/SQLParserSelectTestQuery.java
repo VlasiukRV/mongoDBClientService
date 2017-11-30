@@ -3,7 +3,7 @@ package com.vr.mongoDBClient.sqlParser.sqlSelect;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vr.mongoDBClient.services.sqlExecuter.sqlParser.sqlSection.FieldSorting;
+import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.FieldSorting;
 
 import lombok.Getter;
 import lombok.Setter;

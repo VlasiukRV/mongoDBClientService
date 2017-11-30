@@ -1,17 +1,18 @@
-package com.vr.mongoDBClient.services.runtimeProcessRuner;
+package com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
 import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
-public class RuntimeProcessByteArrayListiner extends ServiceTask implements IRuntimeProcessListiner {
+public class RuntimeProcessByteArrayListener extends ServiceTask implements IRuntimeProcessListener {
     private BufferedReader input;
     
     private ByteArrayOutputStream output;
     
-    public RuntimeProcessByteArrayListiner(){
+    public RuntimeProcessByteArrayListener(){
 	this.output = new ByteArrayOutputStream();
     }
     

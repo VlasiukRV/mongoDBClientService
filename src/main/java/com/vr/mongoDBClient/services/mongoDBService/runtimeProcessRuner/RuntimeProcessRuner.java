@@ -1,4 +1,4 @@
-package com.vr.mongoDBClient.services.runtimeProcessRuner;
+package com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,19 +7,20 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
 import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
 public class RuntimeProcessRuner extends ServiceTask {
     private String command;
     private Process process;
-    private Set<IRuntimeProcessListiner> processListiners = new HashSet<IRuntimeProcessListiner>();
+    private Set<IRuntimeProcessListener> processListeners = new HashSet<>();
     
     public void setCommand(String command) {
         this.command = command;
     }
 
-    public void addProcessListiner(IRuntimeProcessListiner processListiner) {
-	processListiners.add(processListiner);
+    public void addProcessListener(IRuntimeProcessListener processListener) {
+	processListeners.add(processListener);
     }
     
     @Override
@@ -27,12 +28,12 @@ public class RuntimeProcessRuner extends ServiceTask {
 	process = Runtime.getRuntime().exec(command);
 	Thread.sleep(1000);
 	
-	runProcessListiners(process.getInputStream());
+	runProcessListeners(process.getInputStream());
 	
 	int waitFor = process.waitFor();
 	System.out.println("waitFor:: "+waitFor);
 
-	stopProcessListiners();
+	stopProcessListeners();
 
 	return false;	
     }
@@ -40,7 +41,7 @@ public class RuntimeProcessRuner extends ServiceTask {
     public void stopTask(){
 	process.destroy();
 	try {
-	    stopProcessListiners();
+	    stopProcessListeners();
 	} catch (IOException e) {
 	    e.printStackTrace();
 	} catch (InterruptedException e) {
@@ -62,19 +63,19 @@ public class RuntimeProcessRuner extends ServiceTask {
         System.out.println("ProcessRuntimeRuner stop");
     }    
  
-    private void runProcessListiners(InputStream processInputStream) {
-	for (IRuntimeProcessListiner runtimeProcessListiner : processListiners) {
+    private void runProcessListeners(InputStream processInputStream) {
+	for (IRuntimeProcessListener runtimeProcessListener : processListeners) {
 	    BufferedReader input = new BufferedReader(new InputStreamReader(processInputStream));
-	    runtimeProcessListiner.setInput(input);
-	    runtimeProcessListiner.startTask();
+	    runtimeProcessListener.setInput(input);
+	    runtimeProcessListener.startTask();
 	}	
     }
     
-    private void stopProcessListiners() throws IOException, InterruptedException {
-	for (IRuntimeProcessListiner runtimeProcessListiner : processListiners) {
-	    runtimeProcessListiner.stopTask();
+    private void stopProcessListeners() throws IOException, InterruptedException {
+	for (IRuntimeProcessListener runtimeProcessListener : processListeners) {
+	    runtimeProcessListener.stopTask();
 	    Thread.sleep(1000);
-	    BufferedReader input = runtimeProcessListiner.getInput();
+	    BufferedReader input = runtimeProcessListener.getInput();
 	    input.close();	       
 	}	
     }

@@ -1,4 +1,4 @@
-package com.vr.mongoDBClient.services.sqlExecuter.sqlParser;
+package com.vr.mongoDBClient.services.sqlExecutor.sqlParser;
 
 import java.text.ParseException;
 
