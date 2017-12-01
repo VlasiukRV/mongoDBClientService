@@ -1,15 +1,15 @@
 DESCRIPTION
 
 This application provide api for translate SQL query into query for mongodb.
-For use this apication you can fined graphical application in https://github.com/VlasiukRV/mongoDBClient
+For use this aplication you can find graphical application in https://github.com/VlasiukRV/mongoDBClient
 
 For build application use maven.
-ATTENTION!!! Before build application insatll your connection settings to mongoDB in application.properties
+ATTENTION!!! Before build application insatll your connection settings to mongoDB in application.properties sach as host, port, database.
 
 HELP
 
 1.API:
-For get results qury from mongoDB send http request to server
+For get results query from mongoDB send http request to server
 	- url: /api/sqlQuery;
 	- method: GET; 
 	- request param: query='SELECT * FROM payment'
@@ -24,7 +24,7 @@ Grafic applicatioon allows you to perform the following actions:
 	- create data base (url:/createDataBase?dataBaseName='<yourDbName>' method: POST)
 	- drop data base (url:/dropDataBase?dataBaseName='<yourDbName>' method: POST)
 
-3. For test connection to mongo db application provide api to generate test payment collection. By this api application generate collection "payment" in current dataBase. You can perfome the folowing actions:
+3. For test connection to mongo db application provides api to generate test payment collection. By this api application generate collection "payment" in current dataBase. You can perfome the folowing actions:
 	- generate collection "payment" (url: /payment/generateTestPayments method: PUT)
 	- get list of test payments (url:/getTestPayments method:GET)
 Paement collection has following structure:
