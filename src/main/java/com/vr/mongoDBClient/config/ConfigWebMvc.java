@@ -16,7 +16,7 @@ public class ConfigWebMvc extends WebMvcConfigurerAdapter{
     public void addViewControllers(ViewControllerRegistry registry) {
     	registry.addViewController("/").setViewName("index.html");
     	registry.addViewController("/mongoDbManagment").setViewName("mongoDbManagment.html");
-    	registry.addViewController("/paymentManagment").setViewName("paymentManagment.html");
+    	registry.addViewController("/paymentManagment").setViewName("paymentManagment.html");    	
     }
     
     @Override

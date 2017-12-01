@@ -7,30 +7,27 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.vr.mongoDBClient.controllers.SqlQueryController;
-import com.vr.mongoDBClient.entity.Customer;
-import com.vr.mongoDBClient.entity.Payment;
 import com.vr.mongoDBClient.services.PaymentService;
 import com.vr.mongoDBClient.services.mongoDBService.IMongoDBServer;
-import com.vr.mongoDBClient.services.mongoDBService.MongoDBServer;
 import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
 import com.vr.mongoDBClient.services.sqlExecutor.ISQLRuner;
 import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
-import com.vr.mongoDBClient.services.sqlExecutor.mongo.MongoDBSQLExecutorSelect;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLParserSelect;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.FieldSorting;
 import com.vr.mongoDBClient.sqlParser.sqlSelect.SQLParserSelectTestQuery;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,6 +48,9 @@ public class MongoDbClientApplicationTests {
     @Autowired
     private SqlQueryController sqlQueryController;
         
+    @Value("${mongo.useCustomMongoServer}")
+    private boolean useCustomMongoServer;    
+    
     private List<SQLParserSelectTestQuery>  testQueries = new ArrayList<>();
     
     @Before
@@ -103,29 +103,34 @@ public class MongoDbClientApplicationTests {
     @Test
     public void testMongoDBSQLEecuterSelect() {
 	
-	try {
-	    mongodbServer.startMongoDBServer();
-	    Thread.sleep(3000);
-	} catch (Exception e1) {
-	    e1.printStackTrace();
-	    return;
+	if (useCustomMongoServer) {
+	    try {
+		mongodbServer.startMongoDBServer();
+		Thread.sleep(3000);
+	    } catch (Exception e1) {
+		e1.printStackTrace();
+		return;
+	    }
 	}
-	
+
 	mongodbService.setDatabaseName("testDB");
 	paymentService.generateTestPayments();
 	List<Document> documents1 = paymentService.getPayments();
 	List<Document> documents2 = new ArrayList<>();
-	
+
 	try {
-	    SQLResult<List<Document>> sqlResult = sqlExecutor.runQuery("SELECT _id, amount, commission, customer, description FROM "+paymentService.getCollectionName()+";");
+	    SQLResult<List<Document>> sqlResult = sqlExecutor
+		    .runQuery("SELECT _id, amount, commission, customer, description FROM " + paymentService.getCollectionName() + ";");
 	    documents2 = sqlResult.getResult();
 	    mongodbService.dropDataBase(mongodbService.getDatabaseName());
 	    Thread.sleep(3000);
-	    mongodbServer.stopMongoDBServer();
+	    if (useCustomMongoServer) {
+		mongodbServer.stopMongoDBServer();
+	    }
 	} catch (ParseException | InterruptedException | IOException e) {
 	    e.printStackTrace();
 	}
-	assertEquals(documents1, documents2);		
+	assertEquals(documents1, documents2);
 	
     }
     
