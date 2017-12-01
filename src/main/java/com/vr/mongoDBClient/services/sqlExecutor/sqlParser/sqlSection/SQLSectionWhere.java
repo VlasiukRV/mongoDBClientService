@@ -3,8 +3,8 @@ package com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
@@ -47,8 +47,7 @@ public class SQLSectionWhere extends SQLSection {
 		return treeExpression;	    
 	}
 		
-	Pattern operationsPattern = Pattern.compile(operationsRegex);
-	Matcher operationsMatcher = operationsPattern.matcher(expression);
+	Matcher operationsMatcher = SQLRunerUtil.getMatcher(expression, operationsRegex);
 	if(operationsMatcher.find()) {
 		String valueLeft = expression.substring(0, operationsMatcher.start());
 		String valueRight = expression.substring(operationsMatcher.end()+1, expression.length());
@@ -69,10 +68,8 @@ public class SQLSectionWhere extends SQLSection {
 	expressionBlock.put("expressionRight", "");
 	expressionBlock.put("expressionOperator", "");
 	
-	Pattern startSectionPattern = Pattern.compile(startExpressionBlockRegex);
-	Pattern stopSectionPattern = Pattern.compile(stopExpressionBlockRegex);	
-	Matcher startSectionMatcher = startSectionPattern.matcher(expression);
-	Matcher stopSectionMatcher = stopSectionPattern.matcher(expression);
+	Matcher startSectionMatcher = SQLRunerUtil.getMatcher(expression, startExpressionBlockRegex);
+	Matcher stopSectionMatcher = SQLRunerUtil.getMatcher(expression, stopExpressionBlockRegex);
 	
 	if (startSectionMatcher.find()) {
 	    int leftExpresionBegin = startSectionMatcher.start();
@@ -112,13 +109,11 @@ public class SQLSectionWhere extends SQLSection {
 	    stopIndex = stopSectionMatcher.start();
 	    
 	    String expressionBlock = expression.substring(startIndex, stopIndex+1);
-	    
-	    Pattern startSectionPattern = Pattern.compile(startExpressionBlockRegex);	    	
-	    Matcher startSectionBlockMatcher = startSectionPattern.matcher(expressionBlock);
+	    	    	
+	    Matcher startSectionBlockMatcher = SQLRunerUtil.getMatcher(expressionBlock, startExpressionBlockRegex);
 	    int i = getMatchCount(startSectionBlockMatcher);
 	    
-	    Pattern stopSectionPattern = Pattern.compile(stopExpressionBlockRegex);
-	    Matcher stopSectionBlockMatcher = stopSectionPattern.matcher(expressionBlock);
+	    Matcher stopSectionBlockMatcher = SQLRunerUtil.getMatcher(expressionBlock, stopExpressionBlockRegex);
 	    int ii = getMatchCount(stopSectionBlockMatcher);
 	    
 	    if(i != ii) {

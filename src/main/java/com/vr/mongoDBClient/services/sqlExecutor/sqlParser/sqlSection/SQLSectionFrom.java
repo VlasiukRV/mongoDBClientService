@@ -2,8 +2,8 @@ package com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
@@ -21,8 +21,7 @@ public class SQLSectionFrom extends SQLSection {
     @Override
     public void compileSection() throws ParseException {
 	target = "";
-	Pattern pattern = Pattern.compile(sectionParamRegex);
-	Matcher matcher = pattern.matcher(this.sectionValue);
+	Matcher matcher = SQLRunerUtil.getMatcher(this.sectionValue, sectionParamRegex);
 	if (matcher.find()) {
 	    target = matcher.group().replaceAll(" ", "");
 	}

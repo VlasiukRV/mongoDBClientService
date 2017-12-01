@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
@@ -24,8 +24,7 @@ public class SQLSectionOrderBy extends SQLSection{
     
     @Override
     public void compileSection() throws ParseException {
-	Pattern pattern = Pattern.compile(sectionParamRegex);
-	Matcher matcher = pattern.matcher(this.sectionValue);
+	Matcher matcher = SQLRunerUtil.getMatcher(this.sectionValue, sectionParamRegex);
 	fields.clear();
 	if (this.sectionValue.trim().length() == 0) {
 	    throw new ParseException("Missing ordering fields", 0);
@@ -34,8 +33,7 @@ public class SQLSectionOrderBy extends SQLSection{
 		String fieldStr = matcher.group(1).replaceAll(",", "").replaceAll(" ", "");
 		if (!fieldStr.equals("")) {
 		    String sortingModifierStr = "";
-		    Pattern patternModifier = Pattern.compile(sortingModifierRegex);
-		    Matcher matcherModifier = patternModifier.matcher(fieldStr);
+		    Matcher matcherModifier = SQLRunerUtil.getMatcher(fieldStr, sortingModifierRegex);
 		    if (matcherModifier.find()) {
 			sortingModifierStr = matcherModifier.group(1).replaceAll(" ", "");
 		    }

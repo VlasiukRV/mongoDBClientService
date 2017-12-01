@@ -1,5 +1,7 @@
 package com.vr.mongoDBClient.services.serviceTask;
 
+import java.io.IOException;
+
 public abstract class ServiceTask extends Thread implements IServiceTask{
     protected String taskName = "";
     
@@ -13,7 +15,7 @@ public abstract class ServiceTask extends Thread implements IServiceTask{
         this.interrupt();
     }
 
-    protected abstract boolean doTask() throws Exception;
+    protected abstract boolean doTask() throws IOException, InterruptedException;
     
     @Override
     public void run() {

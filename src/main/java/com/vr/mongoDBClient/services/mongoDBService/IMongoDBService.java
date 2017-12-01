@@ -13,10 +13,6 @@ import com.mongodb.client.MongoDatabase;
 
 public interface IMongoDBService {
     public MongoClient getMongoClient();
-    public void startMongoDBServer() throws Exception;
-    public void startMongoDBServer(Set<IRuntimeProcessListener> processListeners) throws Exception;
-    public void stopMongoDBServer() throws Exception;
-    public String getServerLog();
     public List<String> getDataBasesList();
     public MongoDatabase createDataBase(String dataBaseName);
     public boolean dropDataBase(String dataBaseName);

@@ -45,11 +45,11 @@ public class PaymentService {
         
     public void updatePayment() {
 	 Document updateQuery = new Document("id", "1");
-	 getpaymentCollection().updateOne(updateQuery, new Document("$set", new Document("description", "car arenda")));
+	 getpPaymentCollection().updateOne(updateQuery, new Document("$set", new Document("description", "car arenda")));
     }
         
     public List<Document> getPayments() {
-	return getpaymentCollection().find().into(new ArrayList<Document>());
+	return getpPaymentCollection().find().into(new ArrayList<Document>());
     }
     
     public void addPayments(List<Payment> payments) {
@@ -58,14 +58,14 @@ public class PaymentService {
 	    Document paymentDocument = getNewPaymentDocument(payment);
 	    documetsList.add(paymentDocument);
 	}
-	getpaymentCollection().insertMany(documetsList);
+	getpPaymentCollection().insertMany(documetsList);
     }
     
     private void addPayment(Payment payment) {
-	getpaymentCollection().insertOne(getNewPaymentDocument(payment));	
+	getpPaymentCollection().insertOne(getNewPaymentDocument(payment));	
     }
         
-    private MongoCollection<Document> getpaymentCollection(){
+    private MongoCollection<Document> getpPaymentCollection(){
 	return mongoDBService.getCollection(collectionName);
     }
     

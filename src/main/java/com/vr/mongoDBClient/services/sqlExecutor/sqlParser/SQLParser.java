@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSection;
 
 import lombok.Getter;
@@ -36,9 +36,7 @@ public abstract class SQLParser implements ISQLParser{
 	    return false;
 	}
 	
-	Pattern pattern = Pattern.compile(sqlComandRegex);
-	Matcher matcher = pattern.matcher(query);	 
-	return matcher.find();	
+	return SQLRunerUtil.getMatcher(query, sqlComandRegex).find();	
     }
 
     protected abstract String getSQLComandRegex();
@@ -49,10 +47,9 @@ public abstract class SQLParser implements ISQLParser{
 
     private void buildSectionsSequence() {	
 	sectionsSequence = new ArrayList<>();
-	Pattern pattern = Pattern.compile(sectionsregexp);
-	Matcher matcher = pattern.matcher(query);
+	Matcher matcher = SQLRunerUtil.getMatcher(query, sectionsregexp);
 	while (matcher.find()) {
-	    sectionsSequence.add(matcher.group(1));
+	    sectionsSequence.add(matcher.group(1).toUpperCase());
 	}
 	sectionsSequence.add(";");
     }
@@ -70,8 +67,7 @@ public abstract class SQLParser implements ISQLParser{
 	    String nextSectionCommand = getNextSectionCommand(section.getSqlLiteral());
 	    String currenSectionRegex = section.getSectionRegex().replaceAll("@NEXT_COMMAND@", nextSectionCommand);
 
-	    Pattern pattern = Pattern.compile(currenSectionRegex);
-	    Matcher matcher = pattern.matcher(query);
+	    Matcher matcher = SQLRunerUtil.getMatcher(query, currenSectionRegex);
 	    if (matcher.find()) {
 		section.setSectionValue(matcher.group(1));
 		try {

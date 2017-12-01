@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
@@ -23,8 +23,7 @@ public class SQLSectionSelect extends SQLSection{
     
     @Override    
     public void compileSection() throws ParseException{
-	Pattern pattern = Pattern.compile(sectionParamRegex);
-	Matcher matcher = pattern.matcher(this.sectionValue);
+	Matcher matcher = SQLRunerUtil.getMatcher(this.sectionValue, sectionParamRegex);
 	fields.clear();
 	if (this.sectionValue.equals("")) {
 	    throw new ParseException("Missing field description", 0);

@@ -3,6 +3,7 @@ package com.vr.mongoDBClient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,11 @@ import com.vr.mongoDBClient.controllers.SqlQueryController;
 import com.vr.mongoDBClient.entity.Customer;
 import com.vr.mongoDBClient.entity.Payment;
 import com.vr.mongoDBClient.services.PaymentService;
+import com.vr.mongoDBClient.services.mongoDBService.IMongoDBServer;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBServer;
 import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
+import com.vr.mongoDBClient.services.sqlExecutor.ISQLRuner;
+import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
 import com.vr.mongoDBClient.services.sqlExecutor.mongo.MongoDBSQLExecutorSelect;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLParserSelect;
@@ -32,13 +37,16 @@ import com.vr.mongoDBClient.sqlParser.sqlSelect.SQLParserSelectTestQuery;
 public class MongoDbClientApplicationTests {
 
     @Autowired
+    private IMongoDBServer mongodbServer;
+
+    @Autowired
     private MongoDBService mongodbService;
     
     @Autowired
     private PaymentService paymentService; 
     
     @Autowired
-    private MongoDBSQLExecutorSelect sqlExecutorSelect;
+    ISQLRuner sqlExecutor;
     
     @Autowired
     private SqlQueryController sqlQueryController;
@@ -96,7 +104,7 @@ public class MongoDbClientApplicationTests {
     public void testMongoDBSQLEecuterSelect() {
 	
 	try {
-	    mongodbService.startMongoDBServer();
+	    mongodbServer.startMongoDBServer();
 	    Thread.sleep(3000);
 	} catch (Exception e1) {
 	    e1.printStackTrace();
@@ -109,11 +117,12 @@ public class MongoDbClientApplicationTests {
 	List<Document> documents2 = new ArrayList<>();
 	
 	try {
-	    documents2 = sqlExecutorSelect.executeSQLQuery("SELECT _id, amount, commission, customer, description FROM "+paymentService.getCollectionName()+";");
+	    SQLResult<List<Document>> sqlResult = sqlExecutor.runQuery("SELECT _id, amount, commission, customer, description FROM "+paymentService.getCollectionName()+";");
+	    documents2 = sqlResult.getResult();
 	    mongodbService.dropDataBase(mongodbService.getDatabaseName());
 	    Thread.sleep(3000);
-	    mongodbService.stopMongoDBServer();
-	} catch (Exception e) {
+	    mongodbServer.stopMongoDBServer();
+	} catch (ParseException | InterruptedException | IOException e) {
 	    e.printStackTrace();
 	}
 	assertEquals(documents1, documents2);		

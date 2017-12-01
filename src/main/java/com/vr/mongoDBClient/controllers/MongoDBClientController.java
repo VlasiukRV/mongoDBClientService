@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.client.MongoDatabase;
+import com.vr.mongoDBClient.services.mongoDBService.IMongoDBService;
 import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
-import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
+import com.vr.mongoDBClient.services.mongoDBService.MongoDBServer;
 import com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner.RuntimeProcessConsoleListener;
 
 @RestController
@@ -20,15 +21,18 @@ import com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner.RuntimeP
 public class MongoDBClientController {
 
     @Autowired
-    MongoDBService mongoDBServices;
+    IMongoDBService mongoDBServices;
+    
+    @Autowired
+    MongoDBServer mongoServer;
     
     @RequestMapping(value = "/startDBServer", method = RequestMethod.PUT, produces = "application/json; charset=utf-8")
     public Map<String, Object> startMongoDBServer() {	
 	try {
 	    
-	    Set<IRuntimeProcessListener> processListeners = new HashSet<IRuntimeProcessListener>();
+	    Set<IRuntimeProcessListener> processListeners = new HashSet<>();
 	    processListeners.add(new RuntimeProcessConsoleListener());	    
-	    mongoDBServices.startMongoDBServer(processListeners);
+	    mongoServer.startMongoDBServer(processListeners);
 	    
 	}catch (Exception ex) {
 	    return AjaxResponse.errorResponse(ex.getMessage());
@@ -38,7 +42,7 @@ public class MongoDBClientController {
 
     @RequestMapping(value = "/getServerLog", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     public Map<String, Object> getMongoDBServerLog() {
-	String serverLog = mongoDBServices.getServerLog();
+	String serverLog = mongoServer.getServerLog();
 	if(serverLog.equals("")) {
 	    return AjaxResponse.emptyResponse();
 	}
@@ -48,7 +52,7 @@ public class MongoDBClientController {
     @RequestMapping(value = "/stopDBServer", method = RequestMethod.PUT, produces = "application/json; charset=utf-8")
     public Map<String, Object> stopMongoDBServer() {
 	try {
-	    mongoDBServices.stopMongoDBServer();
+	    mongoServer.stopMongoDBServer();
 	}catch (Exception ex) {
 	    return AjaxResponse.errorResponse(ex.getMessage());
 	}

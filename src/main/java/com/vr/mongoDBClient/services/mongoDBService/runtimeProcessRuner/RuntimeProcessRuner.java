@@ -24,7 +24,7 @@ public class RuntimeProcessRuner extends ServiceTask {
     }
     
     @Override
-    protected boolean doTask()throws Exception {
+    protected boolean doTask()throws IOException, InterruptedException  {
 	process = Runtime.getRuntime().exec(command);
 	Thread.sleep(1000);
 	

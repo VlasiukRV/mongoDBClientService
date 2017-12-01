@@ -1,9 +1,13 @@
 package com.vr.mongoDBClient.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.vr.mongoDBClient.services.sqlExecutor.ISQLRuner;
+import com.vr.mongoDBClient.services.sqlExecutor.mongo.MongoDBSQLRuner;
 
 @Configuration
 public class ConfigWebMvc extends WebMvcConfigurerAdapter{
@@ -23,4 +27,10 @@ public class ConfigWebMvc extends WebMvcConfigurerAdapter{
                 .setCachePeriod(3600)
                 .resourceChain(true);
     }
+    
+    @Bean 
+    public ISQLRuner getSQLRuner() {
+	return new MongoDBSQLRuner();
+    }
+        
 }
