@@ -7,6 +7,11 @@ import java.io.IOException;
 import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
 import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
+/**
+ * Task provide reader in runtime
+ *
+ * @author Roman Vlasiuk
+ */
 public class RuntimeProcessByteArrayListener extends ServiceTask implements IRuntimeProcessListener {
     private BufferedReader input;
     

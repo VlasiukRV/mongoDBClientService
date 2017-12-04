@@ -15,6 +15,18 @@ import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * MongoDB service
+ * 
+ * Provide such actions:
+ * 	- get mongoClient
+ * 	- get data base list
+ * 	- create data base
+ * 	- drop data base
+ * 	- get documents collection
+ *
+ * @author Roman Vlasiuk
+ */
 @Component
 public class MongoDBService implements IMongoDBService{
         

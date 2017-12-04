@@ -6,8 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Simple expression from SQL query
+ *
+ * @author Roman Vlasiuk
+ */
 @NoArgsConstructor
-public class SimpleExpression implements IConditionalExpression{
+public class SimpleExpression implements IConditionalExpression<String>{
 
     private @Getter @Setter SQLLiteral operator;
     private @Getter String valueLeft;

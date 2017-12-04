@@ -13,6 +13,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSection
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Abstract SQL parser
+ *
+ * @author Roman Vlasiuk
+ */
 public abstract class SQLParser implements ISQLParser{
     protected @Getter @Setter String query = "";    
     protected @Getter @Setter Map<SQLLiteral, SQLSection>queryTreeSections = new TreeMap<>();

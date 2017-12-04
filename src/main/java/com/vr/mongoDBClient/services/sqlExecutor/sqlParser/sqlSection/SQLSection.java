@@ -8,6 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Abstract SQL section from SQL query
+ *
+ * @author Roman Vlasiuk
+ */
 @NoArgsConstructor
 public abstract class SQLSection {
     protected @Getter @Setter SQLLiteral sqlLiteral;

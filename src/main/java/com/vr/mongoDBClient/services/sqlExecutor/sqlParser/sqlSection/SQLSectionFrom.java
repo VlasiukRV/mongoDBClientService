@@ -8,6 +8,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
+/**
+ * SQL section FROM
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLSectionFrom extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)FROM(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = ".*[^;]+";

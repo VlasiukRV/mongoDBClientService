@@ -11,6 +11,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * SQL section ORDER BY
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLSectionOrderBy extends SQLSection{
     private @Getter String sectionRegex =  ".*(?<=)ORDER BY(.+)(?=)@NEXT_COMMAND@.*";
     private String sectionParamRegex = "((,|^)\\s*\\w+\\s*\\w*)";

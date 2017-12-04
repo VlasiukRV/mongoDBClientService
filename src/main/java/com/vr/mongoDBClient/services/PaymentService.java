@@ -16,6 +16,11 @@ import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Payment service
+ *
+ * @author Roman Vlasiuk
+ */
 @Component
 public class PaymentService {
       

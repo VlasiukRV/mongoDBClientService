@@ -7,9 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Tree of logical expression
+ *
+ * @author Roman Vlasiuk
+ */
 @NoArgsConstructor
 @AllArgsConstructor
-public class TreeExpression implements IConditionalExpression {
+public class TreeExpression implements IConditionalExpression<IConditionalExpression> {
     private @Getter @Setter SQLLiteral operator;
     private @Getter @Setter IConditionalExpression valueLeft;
     private @Getter @Setter IConditionalExpression valueRight;

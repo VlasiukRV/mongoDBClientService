@@ -1,5 +1,10 @@
 package com.vr.mongoDBClient.services.sqlExecutor;
 
+/**
+ * SQL result wrapper
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLResult<T> {
     private T result;
     private boolean empty; 

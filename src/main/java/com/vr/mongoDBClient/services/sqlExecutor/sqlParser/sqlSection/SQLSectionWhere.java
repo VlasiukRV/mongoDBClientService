@@ -10,6 +10,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * SQL section WHERE
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLSectionWhere extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)WHERE(.+)(?=)@NEXT_COMMAND@.*";
     
@@ -37,23 +42,20 @@ public class SQLSectionWhere extends SQLSection {
     private IConditionalExpression buildTreeExpression(String expression) {
 	
 	Map<String, Object> expressionBlock = getExpressionBlock(expression);
-	if(expressionBlock.get("expressionBlock") != "") {
-	    
-		SQLLiteral operator = (SQLLiteral)expressionBlock.get("expressionOperator");			
-		IConditionalExpression valueLeft = buildTreeExpression((String)expressionBlock.get("expressionLeft"));
-		IConditionalExpression valueRight = buildTreeExpression((String)expressionBlock.get("expressionRight"));
-		
-		TreeExpression treeExpression = new TreeExpression(operator, valueLeft, valueRight);
+	if(expressionBlock.get("expressionBlock") != "") {	    			
+	    	IConditionalExpression<IConditionalExpression> treeExpression = new TreeExpression();
+		treeExpression.setOperator((SQLLiteral)expressionBlock.get("expressionOperator"));
+		treeExpression.setValueLeft(buildTreeExpression((String)expressionBlock.get("expressionLeft")));
+		treeExpression.setValueRight(buildTreeExpression((String)expressionBlock.get("expressionRight")));
 		return treeExpression;	    
 	}
 		
 	Matcher operationsMatcher = SQLRunerUtil.getMatcher(expression, operationsRegex);
 	if(operationsMatcher.find()) {
-		String valueLeft = expression.substring(0, operationsMatcher.start());
-		String valueRight = expression.substring(operationsMatcher.end()+1, expression.length());
-		SQLLiteral operator = getSQLLiteralByName(expression.substring(operationsMatcher.start(), operationsMatcher.end()+1));
-		
-		IConditionalExpression treeExpression = new SimpleExpression(operator, valueLeft, valueRight);
+	    	IConditionalExpression<String> treeExpression = new SimpleExpression();
+	    	treeExpression.setValueLeft(expression.substring(0, operationsMatcher.start()));
+	    	treeExpression.setValueRight(expression.substring(operationsMatcher.end()+1, expression.length()));
+	    	treeExpression.setOperator(getSQLLiteralByName(expression.substring(operationsMatcher.start(), operationsMatcher.end()+1)));
 		return treeExpression;
 		
 	}
@@ -133,7 +135,7 @@ public class SQLSectionWhere extends SQLSection {
 	return counter;
     }
     
-    private SQLLiteral getSQLLiteralByName(String stringLiteral) {
+    private SQLLiteral getSQLLiteralByName(String stringLiteral) {	
 	stringLiteral = stringLiteral.replaceAll(" ", "").toUpperCase();
 	switch (stringLiteral) {
 	case "AND":
@@ -156,3 +158,5 @@ public class SQLSectionWhere extends SQLSection {
 	return null;
     }
 }
+
+

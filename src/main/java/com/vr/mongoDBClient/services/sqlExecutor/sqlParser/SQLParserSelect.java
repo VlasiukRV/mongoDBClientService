@@ -2,8 +2,6 @@ package com.vr.mongoDBClient.services.sqlExecutor.sqlParser;
 
 import java.util.Arrays;
 
-import org.springframework.stereotype.Component;
-
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionFrom;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionGroupBy;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionLimit;
@@ -12,7 +10,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSection
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionSkip;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SQLSectionWhere;
 
-@Component
+/**
+ * SQL parser for command SELECT
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLParserSelect extends SQLParser {
         
     public SQLParserSelect(){

@@ -8,6 +8,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
+/**
+ * SQL section SKIP
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLSectionSkip extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)SKIP(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = "\\d+";

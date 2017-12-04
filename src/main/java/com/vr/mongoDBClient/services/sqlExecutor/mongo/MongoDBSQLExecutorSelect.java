@@ -7,10 +7,10 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
-import com.mongodb.client.model.Aggregates;
 import com.vr.mongoDBClient.services.mongoDBService.MongoDBService;
 import com.vr.mongoDBClient.services.sqlExecutor.ISQLExecutor;
 import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
@@ -20,6 +20,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.ICondition
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.SimpleExpression;
 import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.sqlSection.TreeExpression;
 
+/**
+ * MongoDB command executer for SELECT
+ *
+ * @author Roman Vlasiuk
+ */
 public class MongoDBSQLExecutorSelect implements ISQLExecutor {
 
     private MongoDBService mongoDBService;

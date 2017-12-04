@@ -10,6 +10,11 @@ import java.util.Set;
 import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
 import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
+/**
+ * Task provide runner any process in runtime
+ *
+ * @author Roman Vlasiuk
+ */
 public class RuntimeProcessRuner extends ServiceTask {
     private String command;
     private Process process;

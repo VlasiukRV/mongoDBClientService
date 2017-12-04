@@ -10,6 +10,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.ISQLRuner;
 import com.vr.mongoDBClient.services.sqlExecutor.SQLResult;
 import com.vr.mongoDBClient.services.sqlExecutor.SQLRunerUtil;
 
+/**
+ * MongoDB command runner
+ *
+ * @author Roman Vlasiuk
+ */
 public class MongoDBSQLRuner implements ISQLRuner{
     
     @Autowired

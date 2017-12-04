@@ -15,6 +15,13 @@ import com.vr.mongoDBClient.services.mongoDBService.runtimeProcessRuner.RuntimeP
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * MongoDB server runner
+ * 
+ * Provide simple runner mongoDB server using RuntimeProcessRuner
+ *
+ * @author Roman Vlasiuk
+ */
 @Component
 public class MongoDBServer implements IMongoDBServer{
 

@@ -2,6 +2,11 @@ package com.vr.mongoDBClient.services.serviceTask;
 
 import java.io.IOException;
 
+/**
+ * Abstract task
+ *
+ * @author Roman Vlasiuk
+ */
 public abstract class ServiceTask extends Thread implements IServiceTask{
     protected String taskName = "";
     

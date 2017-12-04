@@ -8,6 +8,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 
 import lombok.Getter;
 
+/**
+ * SQL section LIMIT
+ *
+ * @author Roman Vlasiuk
+ */
 public class SQLSectionLimit extends SQLSection {
     private @Getter String sectionRegex = ".*(?<=)LIMIT(.+)(?=)@NEXT_COMMAND@.*";
     private @Getter String sectionParamRegex = "\\d+";

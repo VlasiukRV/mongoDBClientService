@@ -5,6 +5,11 @@ import com.vr.mongoDBClient.services.sqlExecutor.sqlParser.SQLLiteral;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Ordered field from SQL query
+ *
+ * @author Roman Vlasiuk
+ */
 public class FieldSorting extends Field{
     private @Getter @Setter SQLLiteral sortingModifier;
         

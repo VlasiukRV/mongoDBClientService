@@ -2,7 +2,6 @@ package com.vr.mongoDBClient.services.mongoDBService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;

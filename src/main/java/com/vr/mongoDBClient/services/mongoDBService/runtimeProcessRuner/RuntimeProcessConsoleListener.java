@@ -5,6 +5,11 @@ import java.io.BufferedReader;
 import com.vr.mongoDBClient.services.mongoDBService.IRuntimeProcessListener;
 import com.vr.mongoDBClient.services.serviceTask.ServiceTask;
 
+/**
+ * Task provide console reader in runtime
+ *
+ * @author Roman Vlasiuk
+ */
 public class RuntimeProcessConsoleListener extends ServiceTask implements IRuntimeProcessListener {
     private BufferedReader input;
     
